@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Preview</title>
+    <title>Preview Artifact BP Batam AI</title>
+    <link rel="stylesheet" href="/brand/brand.css?v=20261025-logo2"><link rel="icon" href="/brand/favicon.ico">
 
     <style>
       body {
@@ -19,11 +20,11 @@
 
       h1,
       p {
-        font-family: sans-serif;
+        font-family: var(--bp-body);
         font-size: 16px;
-        line-height: 19px;
+        line-height: 1.55;
         margin: auto;
-        color: #323232;
+        color: var(--bp-text);
       }
 
       p a {
@@ -49,7 +50,7 @@
         gap: 10px;
         padding: 6px 12px 6px 6px;
         height: 28px;
-        background: #efefef;
+        background: var(--bp-soft); color: var(--bp-text);
         border-radius: 9999px;
 
         font-weight: 400;
@@ -67,30 +68,12 @@
   -->
   <body style="display: none">
     <main>
-      <svg
-        width="49"
-        height="48"
-        viewBox="0 0 49 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style="margin-left: -7px"
-      >
-        <circle
-          cx="24.5"
-          cy="24"
-          r="16"
-          stroke="#808080"
-          stroke-linecap="round"
-        />
-        <path d="M28.5 20L20.5 28" stroke="#808080" stroke-linecap="round" />
-        <path d="M20.5 20L28.5 28" stroke="#808080" stroke-linecap="round" />
-      </svg>
+      <span class="bp-logo bp-logo-standard"><img class="bp-logo-light" src="/brand/logo-light-v2.svg" alt="BP Batam"><img class="bp-logo-dark" src="/brand/logo-dark-v2.svg" alt="BP Batam"></span>
 
-      <h1>Could not connect to "<span id="url"></span>"</h1>
+      <h1>Preview belum terhubung ke "<span id="url"></span>"</h1>
 
       <p>
-        Unable to load this preview, make you have the relay running in
-        sandpack.
+        Buka artifact dari ruang percakapan BP Batam AI. Jika belum termuat, muat ulang preview.
       </p>
 
       <button onClick="window.location.reload()">
@@ -109,12 +92,12 @@
           />
         </svg>
 
-        <span>Reload</span>
+        <span>Muat ulang</span>
       </button>
     </main>
   </body>
   <noscript>
-    <h1>Could not connect to the server</h1>
-    <p>This requires JavaScript to run.</p>
+    <h1>BP Batam AI — Preview belum terhubung</h1>
+    <p>Aktifkan JavaScript untuk menjalankan preview.</p>
   </noscript>
 </html>
