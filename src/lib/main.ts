@@ -135,8 +135,12 @@ export class PreviewController {
   > {
     const id = generateRandomId();
     const previewUrl = new URL(this.baseUrl);
-    previewUrl.hostname = id + "-" + previewUrl.hostname;
-    previewUrl.pathname = "/";
+    if (previewUrl.pathname.startsWith("/__csb_artifact")) {
+      previewUrl.pathname = "/__csb_artifact/";
+    } else {
+      previewUrl.hostname = id + "-" + previewUrl.hostname;
+      previewUrl.pathname = "/";
+    }
     const relayUrl = this.getRelayUrl(previewUrl.toString());
     const iframe = document.createElement("iframe");
     iframe.setAttribute("src", relayUrl.toString());

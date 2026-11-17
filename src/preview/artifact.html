@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Artifact preview</title></head>
+<body style="margin:0"><iframe title="Artifact content" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-downloads" style="border:0;width:100%;height:100vh"></iframe>
+<script>
+const frame = document.querySelector('iframe');
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((r) => r.unregister());
+  }).catch(() => {});
+}
+let content = '';
+window.addEventListener('message', (event) => {
+  if (event.source !== window.parent || !event.data || event.data.type !== 'artifact-preview') return;
+  if (typeof event.data.content === 'string') content = event.data.content;
+  frame.srcdoc = content;
+});
+</script>
+</body>
+</html>

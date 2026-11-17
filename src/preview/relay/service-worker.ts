@@ -98,17 +98,9 @@ self.addEventListener("message", async (event) => {
     case "worker/init": {
       const nextRelayPort = event.ports[0];
 
-      invariant(
-        relayPortPromise.state === "pending",
-        "Failed to initialize relay: relay port promise already fulfilled from previous evaluation."
-      );
-
-      /**
-       * @fixme Looks like upon shell restart, the worker is still running,
-       * so this promise is already resolved. Resolving it again with
-       * the correct message port does nothing, and it keeps pointing
-       * to the previous (incorrect) message port.
-       */
+      if (relayPortPromise.state !== "pending") {
+        relayPortPromise = createRelayPortPromise();
+      }
       relayPortPromise.resolve(nextRelayPort);
       break;
     }
@@ -150,11 +142,17 @@ export function getResponse(request: Request): DeferredPromise<IResponseData> {
     );
   }, 20_000);
 
+  const parsedReqUrl = new URL(request.url);
+  if (parsedReqUrl.pathname.startsWith("/__csb_artifact")) {
+    parsedReqUrl.pathname =
+      parsedReqUrl.pathname.slice("/__csb_artifact".length) || "/";
+  }
+
   const requestMessage: IPreviewRequestMessage = {
     $channel: CHANNEL_NAME,
     $type: "preview/request",
     id: requestId,
-    url: request.url,
+    url: parsedReqUrl.toString(),
     method: request.method,
   };
 
@@ -173,7 +171,15 @@ self.addEventListener("fetch", (event) => {
 
   if (
     parsedUrl.origin !== self.location.origin ||
-    parsedUrl.pathname.startsWith("/__csb")
+    parsedUrl.pathname.startsWith("/__csb_relay") ||
+    parsedUrl.pathname.startsWith("/__csb_sw") ||
+    parsedUrl.pathname === "/" ||
+    parsedUrl.pathname.startsWith("/static/") ||
+    parsedUrl.pathname.startsWith("/brand/") ||
+    parsedUrl.pathname === "/prepared.json" ||
+    parsedUrl.pathname === "/manifest.json" ||
+    parsedUrl.pathname === "/bpbatam-logo.svg" ||
+    parsedUrl.pathname === "/asset-manifest.json"
   ) {
     return;
   }
